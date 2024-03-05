@@ -199,7 +199,10 @@ cython_debug/
 
 # software binary files
 
-/*
+*/**/db
+*/**/incremental_db
+*/**/output_files
+
 !/*.gitignore
 ##
 !*.qpf
