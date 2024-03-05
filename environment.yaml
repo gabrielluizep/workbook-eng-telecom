@@ -1,0 +1,12 @@
+name: eng
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - jupyter
+  - sympy
