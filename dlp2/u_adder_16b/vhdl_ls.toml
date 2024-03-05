@@ -1,0 +1,4 @@
+[libraries]
+16b_u_adder.files = [
+  'u_adder_16b.vhd',
+]
