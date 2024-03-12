@@ -1,0 +1,4 @@
+[libraries]
+combinacionais.files = [
+  'comp3.vhd',
+]
