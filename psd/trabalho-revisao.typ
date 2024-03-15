@@ -1,12 +1,13 @@
 #import "@preview/ifsc-sj-articled:0.1.0": article
 
 #show: doc => article(
-  title: "Prova 1",
-  subtitle: "Processos Estocásticos",
+  title: "Revisão de Sinais e Sistemas",
+  subtitle: "Processamento de Sinais Digitais",
   authors: ("Gabriel Luiz Espindola Pedro",),
   date: "13 de Setembro de 2023",
   doc,
 )
+
 
 
 = Questão 1
@@ -136,7 +137,7 @@ Temos que
 $
 cos((2 pi n)/3) + j sin((2 pi n)/3)
 &= [cos((2 pi n)/3) cos((2 pi N)/3) - sin((2 pi n)/3) sin((2 pi N)/3)]\ 
-&+ j (sin((2 pi n)/3) cos((2 pi N)/3) + sin((2 pi N)/3) cos((2 pi n)/3)) \
+&+ j [sin((2 pi n)/3) cos((2 pi N)/3) + sin((2 pi N)/3) cos((2 pi n)/3)] \
 $
 
 Para que essa equação seja verdadeira, temos que
@@ -176,4 +177,96 @@ $
 x[n] = cases(2n-1 ", " 0 < n < 3, 0 ", caso contrário" )
 $
 
-Dado que $y[n] = x[-2n-4]$, podemos fazer o deslocamento do sinal $x[n]$ para a direita
+Dado que $y[n] = x[-2n-4]$, podemos fazer o deslocamento do sinal $x[n]$ para a direita em 4 unidades, após isso espelhar o sinal em relação ao eixo das ordenadas e por fim comprimir o sinal pegando os valores a cada 2 unidades.
+
+// adicionar plots
+
+#pagebreak()
+
+= Questão 3 
+
+Determine se o sistema
+
+$
+y[n] = n x[n+3] 
+$
+
+é causal, invariante no deslocamento e linear.
+
+#line()
+
+#lorem(45)
+
+#pagebreak()
+
+= Questão 4
+
+Um sistema linear invariante ao deslocamento tem a seguinte resposta ao impulo
+
+$
+h[n] = u[n]
+$
+
+Encontre, usando a soma de convolução, a saída se a entrada for
+
+$
+x[n] = (1/3)^n u[n]
+$
+
+#line()
+
+#lorem(45)
+
+#pagebreak()
+
+= Questão 5
+
+Considere a sequência de tempo discreto
+
+$
+x[n] = cos((n pi)/2)
+$ 
+
+Encontre dois sinais diferentes de tempo contínuo que produzem essa sequência quando são amostrados com uma frequência de $f_s = 5000 "Hz"$.
+
+#line()
+
+#lorem(45)
+
+#pagebreak()
+
+= Questão 6
+
+Um filtro digital, implementado em um circuito integrado DSP (_Digital Signal Processing_), é descrito pela equação de diferença linear com coeficientes constantes:
+
+$
+y[n] = x[n] - 3y[n-1] + 2y[n-2]
+$
+
+Para analisar o desempenho do filtro, mede-se a resposta a entrada $delta[n]$. Entretanto, antes da aplicação da entrada, os registradores internos de armazenamento não são zerados. Assim, a saída do filtro inclui o efeito das condições iniciais, que são $y[-1] = 1$ e $y[-2] = 1$.
+
+Determine a resposta do filtro para $n >= 0$.
+
+#line()
+
+#lorem(45)
+
+#pagebreak()
+
+= Questão 7
+
+Considere a seguinte transformada $cal(Z)$
+
+$
+X[z] = z/(z-0.1) + z/(z-0.2) + z/(z-0.3)
+$
+
+Calcule a transformada $cal(Z)$ inversa para as seguintes regiões de convergência:
+
+// TODO: adicionar as regiões de convergência
+
+#line()
+
+#lorem(45)
+
+#pagebreak()
