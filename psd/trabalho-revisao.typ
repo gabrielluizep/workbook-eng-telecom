@@ -4,7 +4,7 @@
   title: "Revisão de Sinais e Sistemas",
   subtitle: "Processamento de Sinais Digitais",
   authors: ("Gabriel Luiz Espindola Pedro",),
-  date: "13 de Setembro de 2023",
+  date: "18 de Março de 2024",
   doc,
 )
 
