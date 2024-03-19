@@ -179,7 +179,12 @@ $
 
 Dado que $y[n] = x[-2n-4]$, podemos fazer o deslocamento do sinal $x[n]$ para a direita em 4 unidades, após isso espelhar o sinal em relação ao eixo das ordenadas e por fim comprimir o sinal pegando os valores a cada 2 unidades.
 
-// adicionar plots
+#figure(
+  image("./assets/r1-etapas-transposicao-argumento.png"),
+  caption: [Etapas para  transposição de argumento],
+  supplement: "Figura"
+);
+
 
 #pagebreak()
 
@@ -195,7 +200,49 @@ $
 
 #line()
 
-#lorem(45)
+Relembrando as definições de causalidade, invariância no deslocamento e linearidade:
+
+- Um sistema é causal se a saída $y[n]$ depende apenas de valores de $x[n]$ para $n <= n_0$.
+
+- Um sistema é invariante no deslocamento dada uma entrada $x[n]$ e uma saída $y[n]$, se a saída $y[n-n_0]$ é a saída do sistema para a entrada $x[n-n_0]$.
+
+- Um sistema é linear se satisfaz as propriedades de aditividade e homogeneidade.
+
+== Causalidade
+
+Para verificar a causalidade do sistema, podemos analisar a saída $y[n]$ para $n < 0$.
+
+$
+y[-1] = -1 x[2] \ 
+$
+
+Como verificamos acima, a saída $y[-1]$ depende do valor de $x[2]$, o que implica que #underline()[o sistema não é causal].
+
+== Invariância no deslocamento
+
+Para verificar a invariância no deslocamento, podemos aplicar a entrada $x[n-n_0]$ e verificar se a saída $y[n-n_0]$ é a saída do sistema para a entrada $x[n-n_0]$.
+
+$
+y[n] = n x[(n-n_0)+3] \ 
+!= \
+y[n-n_0] = (n-n_0)x[(n-n_0)+3] \
+$
+
+Como verificamos acima, ao aplicarmos um deslocamento na entrada $x[n]$, a saída não sofre uma alteração em sua amplitude como é esperado, o que implica que #underline()[o sistema não é invariante no deslocamento].
+
+== Linearidade
+
+Para que o sistema seja linear, devemos ter que:
+
+$
+y_1[n] &= n x_1[n+3] \
+y_2[n] &= n x_2[n+3] \ \
+y[n] &= y_1[n] + y_2[n] \
+&= n x_1[n] + n x_2[n] \
+&= n (x_1[n] + x_2[n]) \
+$
+
+Portanto verificamos que o #underline()[sistema é linear].
 
 #pagebreak()
 
@@ -215,7 +262,31 @@ $
 
 #line()
 
-#lorem(45)
+A soma de convolução é dada por
+
+$
+y[n] = sum_(k=-oo)^oo x[k] h[n-k]
+$
+
+Ou seja:
+
+$
+y[n] &= sum_(k=-oo)^oo (1/3)^k u[k] u[n-k] \
+&= sum_(k=0)^oo (1/3)^k u[n-k] \
+&= sum_(k=0)^n (1/3)^k \
+$
+
+Com esta soma geométrica finita podemos aplica a fórmula:
+
+$
+sum_(k=0)^n q^k = (1 - q^(n+1))/(1 - q)
+$
+
+Portanto temos que
+
+$
+y[n] &= (1 - (1/3)^(n+1))/(1 - 1/3)\
+$
 
 #pagebreak()
 
@@ -231,7 +302,23 @@ Encontre dois sinais diferentes de tempo contínuo que produzem essa sequência 
 
 #line()
 
-#lorem(45)
+$
+x[n] &= x_c (n T_s) \
+&= cos((n pi)/2 f_c T_s) \
+&= cos((n pi)/2 f_c/f_s ) \
+&= cos((n pi)/2 f_c/f_s + 2 k pi n) quad forall k in ZZ\
+&= cos(2 pi (f_c/f_s + k) n)
+$
+
+Portanto temos que
+
+$
+2 pi (f_c /f_s + k) &= pi/2 \
+f_c /f_s + k &= 1/4 \
+f_c/f_s &= 1/4 - k \
+$
+
+Assim, temos que para qualquer valor inteiro de $k$, obtemos um sinal contínuo que ao ser amostrado com uma frequência de $f_s = 5000 "Hz"$, produz a sequência $x[n] = cos((n pi)/2)$.
 
 #pagebreak()
 
@@ -240,7 +327,7 @@ Encontre dois sinais diferentes de tempo contínuo que produzem essa sequência 
 Um filtro digital, implementado em um circuito integrado DSP (_Digital Signal Processing_), é descrito pela equação de diferença linear com coeficientes constantes:
 
 $
-y[n] = x[n] - 3y[n-1] + 2y[n-2]
+y[n] = x[n] - 3y[n-1] - 2y[n-2]
 $
 
 Para analisar o desempenho do filtro, mede-se a resposta a entrada $delta[n]$. Entretanto, antes da aplicação da entrada, os registradores internos de armazenamento não são zerados. Assim, a saída do filtro inclui o efeito das condições iniciais, que são $y[-1] = 1$ e $y[-2] = 1$.
@@ -249,7 +336,22 @@ Determine a resposta do filtro para $n >= 0$.
 
 #line()
 
-#lorem(45)
+$
+&y[n] = delta[n] - 3y[n-1] - 2y[n-2] \
+&arrow.t.b.double cal(Z) \
+&Y[z] = 1 - 3(z^(-1) Y[n]+1) - 2(z^(-2) Y[n] + z^(-1) + 1) \
+&Y[z] = 1 - 3z^(-1) Y[n] - 3 - 2z^(-2) Y[n] - 2z^(-1) - 2 \
+&Y[z] + 3z^(-1) Y[n] + 2z^(-2) Y[n]  = -2z^(-1) - 4 \
+&Y[z] (1 + 3z^(-1) + 2z^(-2)) = -2z^(-1) - 4 \
+&Y[z] = (-2z^(-1) - 4)/(1 + 3z^(-1) + 2z^(-2)) \
+&Y[z] = (-4z^2 - 2z)/(z^2 + 3z + 2) \
+&Y[z]/z = (-4z - 2)/(z^2 + 3z + 2) \
+
+&= A/(z+2) + B/(z+1) \
+&= -6/(z+2) + 2/(z+1) \
+&arrow.t.b.double cal(Z)^(-1) \
+&y[n] = -6(-2)^n u[n] + 2(-1)^n u[n] \
+$
 
 #pagebreak()
 
@@ -263,10 +365,35 @@ $
 
 Calcule a transformada $cal(Z)$ inversa para as seguintes regiões de convergência:
 
-// TODO: adicionar as regiões de convergência
+#figure(
+  image("./assets/r1-zonas-convergencia.png", width: 50%),
+  caption: [Zonas de convergência],
+  supplement: "Figura",
+);
+
 
 #line()
 
-#lorem(45)
+== Primeira zona de convergência $|z| <= 0,1$
 
-#pagebreak()
+$
+x[n] = (0.1^n + 0.2^n + 0.3^n) u[-n-1]
+$
+
+== Segunda zona de convergência $|z| >= 0,3$
+
+$
+x[n] = (0.1^n + 0.2^n + 0.3^n) u[n]
+$
+
+== Terceira zona de convergência $0,1 < |z| < 0,2$
+
+$
+x[n] = (0,1)^n u[n] - (0,2^n + 0,3^n) u[-n-1]
+$
+
+== Quarta zona de convergência $0,2 < |z| < 0,3$
+
+$
+x[n] = (0,1^n + 0,2^n) u[n] - 0,3^n u[-n-1]
+$
