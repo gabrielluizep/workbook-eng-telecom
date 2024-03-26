@@ -1,0 +1,7 @@
+[libraries]
+bin2bcd.files = [
+  'bin2bcd.vhd',
+  'bcd_adder.vhd',
+  'bcd_adder_4d.vhd'
+  'bcd_adder_4d.vht'
+]
