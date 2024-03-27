@@ -1,5 +1,5 @@
-#import "@preview/klaro-ifsc-sj:0.1.0": report
 #import "@preview/codelst:2.0.0" : *
+#import "@preview/klaro-ifsc-sj:0.1.0": report
 
 #show: doc => report(
   title: "Análise de Algoritmos de DFT",
