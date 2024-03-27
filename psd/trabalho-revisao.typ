@@ -1,6 +1,6 @@
-#import "@preview/ifsc-sj-articled:0.1.0": article
+#import "@preview/klaro-ifsc-sj:0.1.0": report
 
-#show: doc => article(
+#show: doc => report(
   title: "Revisão de Sinais e Sistemas",
   subtitle: "Processamento de Sinais Digitais",
   authors: ("Gabriel Luiz Espindola Pedro",),

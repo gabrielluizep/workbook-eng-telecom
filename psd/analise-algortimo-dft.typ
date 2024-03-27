@@ -1,7 +1,7 @@
-#import "@preview/ifsc-sj-articled:0.1.0": article
+#import "@preview/klaro-ifsc-sj:0.1.0": report
 #import "@preview/codelst:2.0.0" : *
 
-#show: doc => article(
+#show: doc => report(
   title: "Análise de Algoritmos de DFT",
   subtitle: "Processamento de Sinais Digitais",
   authors: ("Gabriel Luiz Espindola Pedro",),

@@ -1,7 +1,7 @@
-#import "@preview/ifsc-sj-articled:0.1.0": article
 #import "@preview/codelst:2.0.0" : *
+#import "@preview/klaro-ifsc-sj:0.1.0": report
 
-#show: doc => article(
+#show: doc => report(
   title: "Caminho Crítico dos Operadores",
   subtitle: "Dispositivos Lógicos Programáveis II - Prática",
   // Se apenas um autor colocar , no final para indicar que é um array

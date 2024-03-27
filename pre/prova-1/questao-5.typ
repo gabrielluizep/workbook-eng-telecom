@@ -1,6 +1,6 @@
-#import "@preview/ifsc-sj-articled:0.1.0": article
+#import "@preview/klaro-ifsc-sj:0.1.0": report
 
-#show: doc => article(
+#show: doc => report(
   title: "Prova 1",
   subtitle: "Processos Estocásticos",
   authors: ("Gabriel Luiz Espindola Pedro",),
