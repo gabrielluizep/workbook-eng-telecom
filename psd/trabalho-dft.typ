@@ -433,7 +433,7 @@ Como observamos acima, a convolução circular de 9 pontos de $x_1[n]$ e $x_2[n]
 
 #pagebreak()
 
-= Questão 6 (Não consegui fazer)
+= Questão 6
 
 Na figura a seguir é mostrada uma sequência $x[n]$ para a qual o valor de $x[3]$ é uma constante desconhecida $c$. 
 
@@ -446,7 +446,7 @@ Na figura a seguir é mostrada uma sequência $x[n]$ para a qual o valor de $x[3
 O valor da amostra com amplitude $c$ não está necessariamente representada na escala. Considere:
 
 $
-X_1[k] = X[k] e^(j (2 pi)/5 3k)
+X_1[k] = X[k] e^(j (2 pi)/5 2k)
 $
 
 Sendo $X[k]$ a _DFT_ de cinco pontos de $x[n]$. A sequência $x_1[n]$ representada na figura a seguir é a _DFT_ inversa de $X_1[k]$. Qual o valor de $c$?
@@ -470,26 +470,34 @@ x[n] &= 2 delta[n] - delta[n-1] + c delta[n-3] + delta[n-4] \
 x_1[n] &= 2 delta[n] + delta[n-1] + 2 delta[n-2] - delta[n-3]
 $
 
-Podemos obter a _DFT_ de 5 pontos de $x[n]$ e $x_1[n]$:
+Sabendo que a multiplicação por $e^(j (2 pi)/5 2k)$ em $X[k]$ resulta em um deslocamento de 2 posições para a direita, podemos definir a relação entre $x_1[n]$ e $x[n]$:	
 
 $
-X[k] = 2 - e^(-j (2 pi)/5 k) + c e^(-j (2 pi)/5 3 k) + e^(-j (2 pi)/5 4 k) \
-
-\
-
-X_1[k] = 2 + e^(-j (2 pi)/5 k) + 2 e^(-j (2 pi)/5 2 k) - e^(-j (2 pi)/5 3 k)
+x_1[n] = x[(n-2)_mod(5)]
 $
 
-Utilizando a relação $X_1[k] = X[k] e^(j (2 pi)/5 3k)$ podemos obter o valor de $c$:
-
-Para simplificação faremos $e^(-j (2 pi)/N) = W_N$
+Portanto reescrevendo $x[(n-2)_mod(5)]$:
 
 $
-2 + W_5^k + 2 W_5^(2k) - W_5^(3k) &= W_5^(3k)(2 - W_5^k + c W_5^(3k) + W_5^(4k)) \
-&= 2 W_5^(3k) - W_5^(4k) + c W_5^(6k) + W_5^(7k) \
-&= 2 W_5^(3k) - W_5^(4k) + c W_5^(k) + W_5^(2k) \
-&= c W_5^(k) + W_5^(2k) + 2W_5^(3k) - W_5^(4k)
+x[(n-2)_mod(5)] 
+&= 2delta[n-2] - delta[n-3] + c delta[(n-5)_mod(5)] + delta[(n-6)_mod(5)]\
+&= 2delta[n-2] - delta[n-3] + c delta[n] + delta[n-1]\
+&= c delta[n] + delta[n-1] + 2delta[n-2] - delta[n-3]\
 $
+
+Realizando a comparação com $x_1[n]$ obtemos:
+
+$
+x_1[n] &= 2 delta[n] + delta[n-1] + 2 delta[n-2] - delta[n-3]\
+&= \
+x[(n-2)_mod(5)]  &= c delta[n] + delta[n-1] + 2 delta[n-2] - delta[n-3]
+$
+
+Cancelando os termos comuns obtemos:
+
+$
+c = 2
+$ 
 
 #pagebreak()
 
