@@ -4,10 +4,10 @@ use ieee.numeric_std.all;
 
 entity u_adder_16b is
     port (
-        a    : in  std_logic_vector(15 downto 0);
-        b    : in  std_logic_vector(15 downto 0);
+        a : in std_logic_vector(15 downto 0);
+        b : in std_logic_vector(15 downto 0);
 
-        s    : out  std_logic_vector(15 downto 0)
+        s : out std_logic_vector(15 downto 0)
     );
 end entity;
 
