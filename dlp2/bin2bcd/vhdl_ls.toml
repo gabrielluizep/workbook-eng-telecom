@@ -1,7 +1,11 @@
 [libraries]
 bin2bcd.files = [
   'bin2bcd.vhd',
+  'bcd2ssd.vdh',
   'bcd_adder.vhd',
-  'bcd_adder_4d.vhd'
-  'bcd_adder_4d.vht'
+  'bcd_adder_2d.vhd',
+  'bcd_adder_2d_tb.vhd',
+  'bin_adder.vhd',
+  'bin_adder_2d.vhd',
+  'bin_adder_2d_tb.vhd',
 ]

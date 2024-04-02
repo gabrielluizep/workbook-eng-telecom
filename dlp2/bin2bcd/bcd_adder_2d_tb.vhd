@@ -6,34 +6,44 @@ library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;
 
-entity bcd_adder_4d_tb is
+entity bcd_adder_2d_tb is
 end;
 
-architecture bench of bcd_adder_4d_tb is
+architecture bench of bcd_adder_2d_tb is
 
-    component bcd_adder_4d
+    component bcd_adder_2d is
         port (
-            b0, b1     : in  std_logic_vector(3 downto 0);
-            a0, a1     : in  std_logic_vector(3 downto 0);
-            s0, s1, s2 : out std_logic_vector(3 downto 0)
+            b0, b1           : in  std_logic_vector(3 downto 0);
+            a0, a1           : in  std_logic_vector(3 downto 0);
+            s0, s1, s2       : out std_logic_vector(3 downto 0);
+            ac_ccn           : in  std_logic;
+            ssd0, ssd1, ssd2 : out std_logic_vector(6 downto 0)
         );
     end component;
 
-    signal b0, b1     : std_logic_vector(3 downto 0);
-    signal a0, a1     : std_logic_vector(3 downto 0);
-    signal s0, s1, s2 : std_logic_vector(3 downto 0);
+    signal b0, b1           : std_logic_vector(3 downto 0);
+    signal a0, a1           : std_logic_vector(3 downto 0);
+    signal s0, s1, s2       : std_logic_vector(3 downto 0);
+    signal ac_ccn           : std_logic;
+    signal ssd0, ssd1, ssd2 : std_logic_vector(6 downto 0);
 
 begin
 
-    uut : bcd_adder_4d port map(
-        b0 => b0,
-        b1 => b1,
-        a0 => a0,
-        a1 => a1,
-        s0 => s0,
-        s1 => s1,
-        s2 => s2
+    uut : bcd_adder_2d port map(
+        b0     => b0,
+        b1     => b1,
+        a0     => a0,
+        a1     => a1,
+        s0     => s0,
+        s1     => s1,
+        s2     => s2,
+        ac_ccn => ac_ccn,
+        ssd0   => ssd0,
+        ssd1   => ssd1,
+        ssd2   => ssd2
     );
+
+    ac_ccn <= '0';
 
     stimulus : process
     begin
@@ -85,9 +95,9 @@ begin
         wait for 10 ns;
         assert (s2 = "0001" and s1 = "1001" and s0 = "1000") report "Test failed: 99 + 99 = 198" severity error;
 
-        -- Non BCD input
-        -- a1 <= "1010"; a0 <= "1010"; b1 <= "1010"; b0 <= "1010"; wait for 10 ns;
-        -- assert (s2 = "0000" and s1 = "0000" and s0 = "0000") report "Test failed: Non BCD input" severity error;
+        -- -- Non BCD input
+        -- -- a1 <= "1010"; a0 <= "1010"; b1 <= "1010"; b0 <= "1010"; wait for 10 ns;
+        -- -- assert (s2 = "0000" and s1 = "0000" and s0 = "0000") report "Test failed: Non BCD input" severity error;
 
         wait;
     end process;
