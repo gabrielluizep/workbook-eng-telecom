@@ -507,3 +507,118 @@ Suponha que tenhamos uma sequência de 1025 pontos de dados (1 a mais que $N = 2
 
 + Quantas multiplicações complexas são necessárias para se computar a _DFT_ usando um algoritmo de _FFT_ raiz 2?
 + Quantas multiplicações complexas seriam necessárias para se computar diretamente a _DFT_ de 1025 pontos?
+
+== Respostas
+
+=== Item _a_
+
+Utilizando a fórmula para o cálculo do número de multiplicações complexas necessárias para se computar a _DFT_ usando um algoritmo de _FFT_ raiz 2:
+
+$
+N/2 log_2 N
+$
+
+Sendo $N = 2^11$:
+
+$
+&2^11/2 log_2 2^11 = #rect()[11.264]
+$
+
+Portanto são necessárias 11264 multiplicações complexas.
+
+=== Item _b_
+
+Para calcular diretamente a _DFT_ de 1025 pontos, utilizamos a fórmula:
+
+$
+N^2
+$
+
+Sendo $N = 1025$:
+
+$
+&1025^2 = #rect()[1050625]
+$
+
+Portanto são necessárias 1050625 multiplicações complexas.
+
+#pagebreak()
+
+= Questão 8
+
+Considere a sequência de comprimento finito real $x[n]$ mostrada na figura a seguir.
+
+#figure(
+  image("./assets/dft-8.png", width: 80%),
+  caption: [Definições de $x[n]$],
+  supplement: "Figura"
+);
+
++ Esboce a sequência de comprimento finito $y[n]$ cuja _DFT_ de seis pontos seja
+
+  $
+  Y[k] = W_6^(5k)X[k]
+  $
+
+  Sendo $X[k]$ a _DFT_ de seis pontos de $x[n]$.
+
++ Esboce a sequência de comprimento finito w[n] cuja _DFT_ de seis pontos seja 
+  
+  $
+  W[k] = Im{X[k]}
+  $
+
++ Esboce a sequência de comprimento finito $q[n]$ cuja _DFT_ de três pontos seja
+
+  $
+  Q[k] = X[2k+1] quad quad k = 0, 1, 2
+  $
+
+== Respostas
+
+=== Item _a_
+
+A partir da figura podemos obter a sequência $x[n]$:
+
+$
+x[n] = 4 delta[n] + 3 delta[n-1] + 2 delta[n-2] + delta[n-3]
+$
+
+Sabendo que $W_6^(5k) = e^(-j (2 pi)/6 5k)$ e que a multiplicação por $e^(-j (2 pi)/6 5k)$ em $X[k]$ resulta em um deslocamento de 5 posições para a direita, podemos facilmente relacionar $y[n]$ e $x[n]$:
+
+$
+y[n] = x[(n-5)_(mod 6)]
+$
+
+Portanto reescrevendo $x[(n-5)_(mod 6)]$ obtemos $y[n]$:
+
+$
+y[n] = 
+x[(n-5)_(mod 6)] 
+&= 4 delta[n-5] + 3 delta[(n-6)_mod(6)] +\ 
+&quad 2 delta[(n-7)_mod(6)] + delta[(n-8)_mod(6)]\
+&= 4 delta[n-5] + 3 delta[n] + 2 delta[n-1] + delta[n-2]\
+&= 3 delta[n] + 2 delta[n-1] + delta[n-2] + 4 delta[n-5]
+$
+
+=== Item _b_
+
+Calculamos a _DFT_ de seis pontos de $x[n]$:
+
+$
+X[k] = 4 + 3 W_6^k + 2 W_6^(2k) + W_6^(3k)
+$
+
+Sabendo que:
+
+$
+W_6 = e^(-j (2 pi)/6) quad "e" quad Im{e^(-j theta)} = -sin(theta) 
+$
+
+Podemos obter a sequência $W[k]$:
+
+$
+W[k]
+&= Im{X[k]} \ 
+&=-3 sin[(2 pi)/6 k] +-2 sin[(2 pi)/6 2k]-+ sin[(2 pi)/6 3k]
+$
