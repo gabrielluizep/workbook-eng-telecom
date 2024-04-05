@@ -2,6 +2,8 @@
 
 #import "@preview/klaro-ifsc-sj:0.1.0": report
 
+#set text(font: "FreeSans")
+
 #show: doc => report(
   title: [Transformada de Fourier Discreta],
   subtitle: [Processamento de Sinais Digitais],
@@ -620,5 +622,115 @@ Podemos obter a sequência $W[k]$:
 $
 W[k]
 &= Im{X[k]} \ 
-&=-3 sin[(2 pi)/6 k] +-2 sin[(2 pi)/6 2k]-+ sin[(2 pi)/6 3k]
+&=-3 sin[(2 pi)/6 k] -2 sin[(2 pi)/6 2k]- sin[(2 pi)/6 3k]\
+&=-3 sin[(pi/3) k] - 2 sin[((2pi)/3) k] - sin[pi k]
 $
+
+=== Item _c_
+
+Para obter a sequência $q[n]$ a partir de $x[n]$ utilizamos a expressão:
+
+$
+Q[k] = X[2k+1] quad quad k = 0, 1, 2
+$
+
+E sendo $X[k]$ a _DFT_ de seis pontos de $x[n]$:
+
+$
+X[k] = 4 + 3 W_6^k + 2 W_6^(2k) + W_6^(3k)
+$
+
+Portanto obtemos:
+
+$
+Q[0] &= X[1]\
+&= 3 W_6^1 + 2 W_6^2 + W_6^3 \ 
+&= 3 W_6 + 2 W_6^2 + W_6^3\
+Q[1] &= X[3]\
+&= 3 W_6^3 + 2 W_6^6 + W_6^9 \
+&= 3 W_6^3 + 2 W_6^0 + W_6^3\
+Q[2] &= X[5]\
+&= 3 W_6^5 + 2 W_6^10 + W_6^15 \
+&= 3 W_6^5 + 2 W_6^4 + W_6^3
+$
+
+Portanto $q[n]$ pode ser representado por:
+
+$
+q[n] = 3 delta[n-1] + 2 delta[n-2] + delta[n-3]
+$
+
+#pagebreak()
+
+= Questão 9
+
+Realize a simulação das questões utilizando software.
+
+= Questão 10
+
+Comente os códigos feitos no MATLAB dos dois métodos de convolução fornecido pela professora. Faça testes usando essas funções fornecidas e compare com os resultados das funções cconv e conv.
+
+
+== Função de convolução por sobreposição e armazenamento
+
+#sourcecode[```matlab
+function y=sobreposicao_armazena(x,h,N)
+
+% Define o número de blocos necessários para realizar a convolução
+L = length(x)
+K = length(h)
+B = ceil((L + K - 1)/(N - K + 1))
+
+% Adiciona zeros para garantir que haja espaço suficiente para sobreposição e soma durante a convolução.
+x=[zeros(1,K-1) x zeros(1,B*(N-K+1))]
+hm = [h zeros(1,N-K)]
+
+% Este loop divide o sinal de entrada x em blocos de tamanho N, com uma sobreposição de K-1 amostras entre os blocos.
+for i = 1:B
+    % Armazena os blocos de tamanho N
+    X(i,:) = [x(1+(i-1)*(N-(K-1)):i*N-(i-1)*(K-1))];
+end
+
+% Realiza a convolução circular do primeiro bloco X com a resposta ao impulso estendida hm e, em seguida, selecionam apenas a parte relevante do resultado, removendo as amostras extras causadas pela convolução circular.
+y = cconv(X(1,:),hm,N)
+y = y(K:N)
+
+% Este loop realiza o mesmo processo para os blocos restantes e concatena os resultados ao longo do tempo.
+for i = 2:B
+    y_aux = cconv(X(i,:),hm,N)
+    y = [y y_aux(K:N)]
+end
+```]
+
+== Função de convolução por sobreposição e soma 
+
+#sourcecode[```matlab
+function [yconv,yfft]=sobreposicao_soma(x,h,N)
+
+% Determina o número de blocos necessários para dividir o sinal de entrada em blocos de tamanho N
+t_x = length(x);
+t_h = length(h);
+blocos = t_x/N;
+
+% Adiciona zeros para acomodar a resposta ao impulso h.
+for i = 1:blocos
+    X(i,:) = [x(1+(i-1)*N:i*N) zeros(1,t_h-1)];
+end
+hm = [h zeros(1,N-1)];
+
+% Calcula a convolução por dois métodos diferentes: convolução circular e FFT.
+for i = 1:blocos
+    Y(i,:) = [zeros(1,(i-1)*N) cconv(X(i,:),hm,N+t_h-1) zeros(1,t_x-(i)*N)];
+    YY(i,:) = [zeros(1,(i-1)*N) ifft(fft(X(i,:)).*fft(hm)) zeros(1,t_x-(i)*N)];
+end
+
+
+% Este loops somam os resultados de convolução de todos os blocos para obter o sinal de saída final tanto para a abordagem de sobreposição e soma quanto para a FFT.
+yconv = zeros(1,t_x+t_h-1);
+yfft = zeros(1,t_x+t_h-1);
+
+for i = 1:blocos
+    yconv = yconv+Y(i,:);
+    yfft = yfft+YY(i,:);
+end
+```]
