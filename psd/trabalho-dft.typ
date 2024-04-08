@@ -29,8 +29,8 @@ Ao compararmos os dois gráficos percebemos que a sequência $x_2[n]$ é a sequ�
 Obtendo a expressão de $x_1[n]$ e $x_2[n]$ em função dos impulsos unitários $delta[n]$:
 
 $
-x_1[n] &= delta[n-1] + 2 delta[n-2] + 3 delta[n-3] + 2 delta[n-4] + delta[n-5] \
-x_2[n] &= 2 delta[n] + delta[n-1] + delta[n-5] + 2 delta[n-6] + 3 delta[n-7]
+x_1[n] &= a delta[n-1] + b delta[n-2] + c delta[n-3] + d delta[n-4] + e delta[n-5] \
+x_2[n] &= d delta[n] + e delta[n-1] + a delta[n-5] + b delta[n-6] + c delta[n-7]
 $
 
 Portanto podemos reescrever $X_2[k]$ em função de $X_1[k]$:
@@ -43,6 +43,7 @@ $
 
 Utilizando a linguagem de programação python, podemos simular a relação entre $X_1[k]$ e $X_2[k]$.
 
+Considerando $a=1, b=2, c=3, d=2, e=1$ para efeitos de simulação
 #sourcecode[```python	
   n = np.arange(0, 8)  # Gera um vetor de 0 a 7
 
@@ -603,6 +604,8 @@ x[(n-5)_(mod 6)]
 &= 3 delta[n] + 2 delta[n-1] + delta[n-2] + 4 delta[n-5]
 $
 
+
+
 === Item _b_
 
 Calculamos a _DFT_ de seis pontos de $x[n]$:
@@ -617,13 +620,25 @@ $
 W_6 = e^(-j (2 pi)/6) quad "e" quad Im{e^(-j theta)} = -sin(theta) 
 $
 
-Podemos obter a sequência $W[k]$:
+E levando em consideração a propriedade da _DFT_:
 
 $
-W[k]
-&= Im{X[k]} \ 
-&=-3 sin[(2 pi)/6 k] -2 sin[(2 pi)/6 2k]- sin[(2 pi)/6 3k]\
-&=-3 sin[(pi/3) k] - 2 sin[((2pi)/3) k] - sin[pi k]
+x[n]_("op") = 1/2 {x[n] - x^*[(-n)_mod(N)]} <==>^("DFT") j Im{X[k]}
+$
+
+Podemos obter a sequência $W[k]$ utilizando esta relação:
+
+$
+W[k] &= Im{X[k]} \ 
+j W[k] &= j Im{X[k]} \
+&arrow.double.t.b\
+j w[n]
+&= x_("op")[n] \
+&= 1/2 {x[n] - x^*[(-n)_mod(6)]} \
+w[n] 
+&= 1/(2j) {x[n] - x^*[(-n)_mod(6)]} \
+&= -j/2 {x[n] - x^*[(-n)_mod(6)]}\
+
 $
 
 === Item _c_
@@ -734,3 +749,38 @@ for i = 1:blocos
     yfft = yfft+YY(i,:);
 end
 ```]
+
+#pagebreak()
+
+
+= Tabela _DFT_
+
+#set text(size: 10pt)
+
+#table(
+  columns: (1.5fr, 1fr),
+  align: (left, left),
+  inset: 1em,
+  stroke: 0pt,
+  
+  table.header(
+    [Sequência de comprimento finito\ (comprimento $N$)], 
+    [_DFT_ de $N$ pontos\ (comprimento $N$)]
+  ),
+  table.hline(start: 0, stroke: .6pt),
+
+  [$x[n]$], [$X[k]$],
+  [$x_1[n], x_2[n]$], [$X_1[k], X_2[k]$],
+  [$a x_1[n] + b x_2[n]$], [$a X_1[k] + b X_2[k]$],
+  [$X[n]$], [$N x[(-k)_N]$],
+  [$x[(n-m)_N]$], [$W_N^(k m) X[k]$],
+  [$W_N^(-l n) x[n]$],[$X[(k-l)_N]$],
+  [$sum_(m=0)^(N-1) x_1[m]x_2[(n-m)_N]$], [$X_1[k]X_2[k]$],
+  [$x_1[n] x_2[n]$], [$1/N sum_(l=0)^(N-1) X_1[l]X_2[(k-l)_N]$],
+  [$x^*[n]$], [$X^*[(-k)_N]$],
+  [$x^*[(-n)_N]$], [$X^*[k]$],
+  [$Re{x[n]}$],[$X_"ep" [k] =1/2 {X[(k)_N] + X^*[(-k)_N]}$],
+  [$j Im{x[n]}$],[$X_"op" [k] =1/2 {X[(k)_N] - X^*[(-k)_N]}$],
+  [$x_"ep" [n] =1/2 {x[(n)_N] + x^*[(-n)_N]}$], [$Re{X[k]}$],
+  [$x_"op" [n] =1/2 {x[(n)_N] - x^*[(-n)_N]}$], [$j Im{X[k]}$],
+)
