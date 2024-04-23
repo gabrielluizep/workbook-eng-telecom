@@ -1,0 +1,8 @@
+[libraries]
+timer_new.files = [
+  'list_09_05_06_timer_CORRIGIDO_50mhz.vhd',
+  'top_timer_de2_115.vhd',
+  'bin2bcd.vhd',
+  'bcd2ssd.vhd',
+  'pll5khz.vhd',
+]
