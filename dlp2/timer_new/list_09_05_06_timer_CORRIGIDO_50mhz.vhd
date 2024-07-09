@@ -27,12 +27,11 @@ ARCHITECTURE single_clock_arch OF timer IS
    
    SIGNAL c_d_reg, c_d_next : unsigned(3 DOWNTO 0);
    
-   CONSTANT CONST_RESET : unsigned(12 DOWNTO 0) := "1011111001001";
-   CONSTANT SEED : unsigned(12 DOWNTO 0) := "1111111111111";
+   CONSTANT CONST_RESET : unsigned(5 DOWNTO 0) := "000110";
+   CONSTANT SEED : unsigned(5 DOWNTO 0) := "111111";
    SIGNAL fb : STD_LOGIC;
-   SIGNAL LFSR_reg: unsigned(12 DOWNTO 0);
-   SIGNAL LFSR_next: unsigned(12 DOWNTO 0);
-
+   SIGNAL LFSR_reg: unsigned(5 DOWNTO 0);
+   SIGNAL LFSR_next: unsigned(5 DOWNTO 0);
    
 BEGIN
    -- register
@@ -59,11 +58,11 @@ BEGIN
       END IF;
    END PROCESS;
 
-   fb <= LFSR_reg(12) XOR LFSR_reg(10) XOR LFSR_reg(9) XOR LFSR_reg(0);
+   fb <= LFSR_reg(5) XOR LFSR_reg(0);
 
    LFSR_next <= SEED WHEN LFSR_reg = CONST_RESET
       ELSE
-      fb & LFSR_reg(12 DOWNTO 0);
+      fb & LFSR_reg(5 DOWNTO 1);
 
    c_en <= '1' WHEN LFSR_reg = CONST_RESET
       ELSE
