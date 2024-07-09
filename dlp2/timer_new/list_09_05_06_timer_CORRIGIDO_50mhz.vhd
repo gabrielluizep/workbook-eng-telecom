@@ -1,7 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
-
 ENTITY timer IS
    PORT (
       clk, reset : IN STD_LOGIC;
@@ -12,7 +11,6 @@ ENTITY timer IS
 END timer;
 
 ARCHITECTURE single_clock_arch OF timer IS
-   SIGNAL r_reg : unsigned(5 DOWNTO 0);
    SIGNAL r_next : unsigned(5 DOWNTO 0);
 
    SIGNAL s_u_reg, m_u_reg : unsigned(3 DOWNTO 0);
@@ -23,17 +21,25 @@ ARCHITECTURE single_clock_arch OF timer IS
 
    SIGNAL s_en, m_en : STD_LOGIC;
 
+   
    SIGNAL c_u_reg, c_u_next : unsigned(3 DOWNTO 0);
    SIGNAL c_en : STD_LOGIC;
-
+   
    SIGNAL c_d_reg, c_d_next : unsigned(3 DOWNTO 0);
+   
+   CONSTANT CONST_RESET : unsigned(12 DOWNTO 0) := "1011111001001";
+   CONSTANT SEED : unsigned(12 DOWNTO 0) := "1111111111111";
+   SIGNAL fb : STD_LOGIC;
+   SIGNAL LFSR_reg: unsigned(12 DOWNTO 0);
+   SIGNAL LFSR_next: unsigned(12 DOWNTO 0);
 
+   
 BEGIN
    -- register
    PROCESS (clk, reset)
    BEGIN
       IF (reset = '1') THEN
-         r_reg <= (OTHERS => '0');
+         LFSR_reg <= SEED;
          s_u_reg <= (OTHERS => '0');
          m_u_reg <= (OTHERS => '0');
 
@@ -43,7 +49,7 @@ BEGIN
          c_u_reg <= (OTHERS => '0');
          c_d_reg <= (OTHERS => '0');
       ELSIF (rising_edge(clk)) THEN
-         r_reg <= r_next;
+         LFSR_reg <= LFSR_next;  
          c_u_reg <= c_u_next;
          c_d_reg <= c_d_next;
          s_u_reg <= s_u_next;
@@ -53,11 +59,14 @@ BEGIN
       END IF;
    END PROCESS;
 
-   -- next-state logic/output logic for mod-1000000 counter
-   r_next <= (OTHERS => '0') WHEN r_reg = 49 ELSE
-      r_reg + 1;
+   fb <= LFSR_reg(12) XOR LFSR_reg(10) XOR LFSR_reg(9) XOR LFSR_reg(0);
 
-   c_en <= '1' WHEN r_reg = 49 ELSE
+   LFSR_next <= SEED WHEN LFSR_reg = CONST_RESET
+      ELSE
+      fb & LFSR_reg(12 DOWNTO 0);
+
+   c_en <= '1' WHEN LFSR_reg = CONST_RESET
+      ELSE
       '0';
 
    s_en <= '1' WHEN c_d_reg = 9 AND c_u_reg = 9 AND c_en = '1' ELSE
