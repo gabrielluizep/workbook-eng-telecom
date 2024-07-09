@@ -1,134 +1,108 @@
---=============================
--- Listing 9.5 timer
---=============================
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
-entity timer is
-   port (
-      clk, reset : in std_logic;
-      cen        : out std_logic_vector(6 downto 0);
-      sec, min   : out std_logic_vector(5 downto 0)
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+ENTITY timer IS
+   PORT (
+      clk, reset : IN STD_LOGIC;
+      cen_u, cen_d : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+      sec_u, sec_d : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+      min_u, min_d : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
    );
-end timer;
+END timer;
 
--- architecture multi_clock_arch of timer is
---    signal r_reg: unsigned(25 downto 0);
---    signal r_next: unsigned(25 downto 0);
---    signal s_reg, m_reg: unsigned(5 downto 0);
---    signal s_next, m_next: unsigned(5 downto 0);
---    signal sclk, mclk: std_logic;
--- begin
---    -- register
---    process(clk,reset)
---    begin
---       if (reset='1') then
---          r_reg <= (others=>'0');
---       elsif (clk'event and clk='1') then
---          r_reg <= r_next;
---       end if;
---    end process;
---    -- next-state logic
---    r_next <= (others=>'0') when r_reg=49999999 else
---              r_reg + 1;
---    -- output logic
---    sclk <= '0' when r_reg < 25000000 else
---            '1';
---    -- second divider
---    process(sclk,reset)
---    begin
---       if (reset='1') then
---          s_reg <= (others=>'0');
---       elsif (sclk'event and sclk='1') then
---          s_reg <= s_next;
---       end if;
---    end process;
---    -- next-state logic
---    s_next <= (others=>'0') when s_reg=59 else
---              s_reg + 1;
---    -- output logic
---    mclk <= '0' when s_reg < 30 else
---            '1';
---    sec <= std_logic_vector(s_reg);
---    -- minute divider
---    process(mclk,reset)
---    begin
---       if (reset='1') then
---          m_reg <= (others=>'0');
---       elsif (mclk'event and mclk='1') then
---          m_reg <= m_next;
---       end if;
---    end process;
---    -- next-state logic
---    m_next <= (others=>'0') when m_reg=59 else
---              m_reg + 1;
---    -- output logic
---    min <= std_logic_vector(m_reg);
--- end multi_clock_arch;
-----=============================
----- Listing 9.6
-----=============================
-architecture single_clock_arch of timer is
-   signal r_reg          : unsigned(25 downto 0);
-   signal r_next         : unsigned(25 downto 0);
-   signal s_reg, m_reg   : unsigned(5 downto 0);
-   signal s_next, m_next : unsigned(5 downto 0);
-   signal s_en, m_en     : std_logic;
+ARCHITECTURE single_clock_arch OF timer IS
+   SIGNAL r_reg : unsigned(5 DOWNTO 0);
+   SIGNAL r_next : unsigned(5 DOWNTO 0);
 
-   signal c_reg, c_next : unsigned(6 downto 0);
-   signal c_en          : std_logic;
-begin
+   SIGNAL s_u_reg, m_u_reg : unsigned(3 DOWNTO 0);
+   SIGNAL s_d_reg, m_d_reg : unsigned(3 DOWNTO 0);
+
+   SIGNAL s_u_next, m_u_next : unsigned(3 DOWNTO 0);
+   SIGNAL s_d_next, m_d_next : unsigned(3 DOWNTO 0);
+
+   SIGNAL s_en, m_en : STD_LOGIC;
+
+   SIGNAL c_u_reg, c_u_next : unsigned(3 DOWNTO 0);
+   SIGNAL c_en : STD_LOGIC;
+
+   SIGNAL c_d_reg, c_d_next : unsigned(3 DOWNTO 0);
+
+BEGIN
    -- register
-   process (clk, reset)
-   begin
-      if (reset = '1') then
-         r_reg <= (others => '0');
-         s_reg <= (others => '0');
-         m_reg <= (others => '0');
+   PROCESS (clk, reset)
+   BEGIN
+      IF (reset = '1') THEN
+         r_reg <= (OTHERS => '0');
+         s_u_reg <= (OTHERS => '0');
+         m_u_reg <= (OTHERS => '0');
 
-         c_reg <= (others => '0');
-      elsif (clk'event and clk = '1') then
+         s_d_reg <= (OTHERS => '0');
+         m_d_reg <= (OTHERS => '0');
+
+         c_u_reg <= (OTHERS => '0');
+         c_d_reg <= (OTHERS => '0');
+      ELSIF (rising_edge(clk)) THEN
          r_reg <= r_next;
-         s_reg <= s_next;
-         m_reg <= m_next;
+         c_u_reg <= c_u_next;
+         c_d_reg <= c_d_next;
+         s_u_reg <= s_u_next;
+         s_d_reg <= s_d_next;
+         m_u_reg <= m_u_next;
+         m_d_reg <= m_d_next;
+      END IF;
+   END PROCESS;
 
-         c_reg <= c_next;
-      end if;
-   end process;
-   -- next-state logic/output logic for mod-50000000 counter
-   r_next <= (others => '0') when r_reg = 49 else
+   -- next-state logic/output logic for mod-1000000 counter
+   r_next <= (OTHERS => '0') WHEN r_reg = 49 ELSE
       r_reg + 1;
 
-   ----------------------------------------------------------------------------
-
-   c_en <= '1' when r_reg = 49 else
+   c_en <= '1' WHEN r_reg = 49 ELSE
       '0';
 
-   c_next <= (others => '0') when (c_reg = 99 and c_en = '1') else
-      c_reg + 1 when c_en = '1' else
-      c_reg;
-
-   ---------------------------------------------------------------------------    
-
-   -- s_en alterado :)
-   s_en <= '1' when c_reg = 99 and c_en = '1' else
+   s_en <= '1' WHEN c_d_reg = 9 AND c_u_reg = 9 AND c_en = '1' ELSE
       '0';
 
-   -- next state logic/output logic for second divider
-   s_next <= (others => '0') when (s_reg = 59 and s_en = '1') else
-      s_reg + 1 when s_en = '1' else
-      s_reg;
-
-   m_en <= '1' when s_reg = 59 and s_en = '1' else
+   m_en <= '1' WHEN s_d_reg = 5 AND s_u_reg = 9 AND s_en = '1' ELSE
       '0';
 
-   -- next-state logic for minute divider
-   m_next <= (others => '0') when (m_reg = 59 and m_en = '1') else
-      m_reg + 1 when m_en = '1' else
-      m_reg;
+   -- next-state logic/output logic for centisecond units
+   c_u_next <= (OTHERS => '0') WHEN (c_u_reg = 9 AND c_en = '1') ELSE
+      c_u_reg + 1 WHEN c_en = '1' ELSE
+      c_u_reg;
+
+   -- next-state logic/output logic for centisecond tens
+   c_d_next <= (OTHERS => '0') WHEN (c_d_reg = 9 AND c_u_reg = 9 AND c_en = '1') ELSE
+      c_d_reg + 1 WHEN (c_u_reg = 9 AND c_en = '1') ELSE
+      c_d_reg;
+
+   -- next-state logic/output logic for second units
+   s_u_next <= (OTHERS => '0') WHEN (s_u_reg = 9 AND s_en = '1') ELSE
+      s_u_reg + 1 WHEN s_en = '1' ELSE
+      s_u_reg;
+
+   -- next-state logic/output logic for second tens
+   s_d_next <= (OTHERS => '0') WHEN (s_d_reg = 5 AND s_u_reg = 9 AND s_en = '1') ELSE
+      s_d_reg + 1 WHEN (s_u_reg = 9 AND s_en = '1') ELSE
+      s_d_reg;
+
+   -- next-state logic/output logic for minute units
+   m_u_next <= (OTHERS => '0') WHEN (m_u_reg = 9 AND m_en = '1') ELSE
+      m_u_reg + 1 WHEN m_en = '1' ELSE
+      m_u_reg;
+
+   -- next-state logic/output logic for minute tens
+   m_d_next <= (OTHERS => '0') WHEN (m_d_reg = 5 AND m_u_reg = 9 AND m_en = '1') ELSE
+      m_d_reg + 1 WHEN (m_u_reg = 9 AND m_en = '1') ELSE
+      m_d_reg;
 
    -- output logic
-   sec <= std_logic_vector(s_reg);
-   min <= std_logic_vector(m_reg);
-   cen <= std_logic_vector(c_reg);
-end single_clock_arch;
+   cen_u <= STD_LOGIC_VECTOR(c_u_reg);
+   cen_d <= STD_LOGIC_VECTOR(c_d_reg);
+
+   sec_u <= STD_LOGIC_VECTOR(s_u_reg);
+   sec_d <= STD_LOGIC_VECTOR(s_d_reg);
+
+   min_u <= STD_LOGIC_VECTOR(m_u_reg);
+   min_d <= STD_LOGIC_VECTOR(m_d_reg);
+END single_clock_arch;
