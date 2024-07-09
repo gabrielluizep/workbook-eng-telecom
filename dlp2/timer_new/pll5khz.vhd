@@ -16,6 +16,8 @@
 --
 -- 20.1.1 Build 720 11/11/2020 SJ Standard Edition
 -- ************************************************************
+
+
 --Copyright (C) 2020  Intel Corporation. All rights reserved.
 --Your use of Intel Corporation's design tools, logic functions 
 --and other software and tools, and any partner logic 
@@ -30,161 +32,170 @@
 --Intel and sold by Intel or its authorized distributors.  Please
 --refer to the applicable agreement for further details, at
 --https://fpgasoftware.intel.com/eula.
-library ieee;
-use ieee.std_logic_1164.all;
 
-library altera_mf;
-use altera_mf.all;
 
-entity pll5khz is
-	port (
-		inclk0 : in std_logic := '0';
-		c0     : out std_logic
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+LIBRARY altera_mf;
+USE altera_mf.all;
+
+ENTITY pll5khz IS
+	PORT
+	(
+		inclk0		: IN STD_LOGIC  := '0';
+		c0		: OUT STD_LOGIC 
 	);
-end pll5khz;
-architecture SYN of pll5khz is
+END pll5khz;
 
-	signal sub_wire0    : std_logic_vector (4 downto 0);
-	signal sub_wire1    : std_logic;
-	signal sub_wire2    : std_logic;
-	signal sub_wire3    : std_logic_vector (1 downto 0);
-	signal sub_wire4_bv : BIT_VECTOR (0 downto 0);
-	signal sub_wire4    : std_logic_vector (0 downto 0);
 
-	component altpll
-		generic (
-			bandwidth_type          : string;
-			clk0_divide_by          : natural;
-			clk0_duty_cycle         : natural;
-			clk0_multiply_by        : natural;
-			clk0_phase_shift        : string;
-			compensate_clock        : string;
-			inclk0_input_frequency  : natural;
-			intended_device_family  : string;
-			lpm_hint                : string;
-			lpm_type                : string;
-			operation_mode          : string;
-			pll_type                : string;
-			port_activeclock        : string;
-			port_areset             : string;
-			port_clkbad0            : string;
-			port_clkbad1            : string;
-			port_clkloss            : string;
-			port_clkswitch          : string;
-			port_configupdate       : string;
-			port_fbin               : string;
-			port_inclk0             : string;
-			port_inclk1             : string;
-			port_locked             : string;
-			port_pfdena             : string;
-			port_phasecounterselect : string;
-			port_phasedone          : string;
-			port_phasestep          : string;
-			port_phaseupdown        : string;
-			port_pllena             : string;
-			port_scanaclr           : string;
-			port_scanclk            : string;
-			port_scanclkena         : string;
-			port_scandata           : string;
-			port_scandataout        : string;
-			port_scandone           : string;
-			port_scanread           : string;
-			port_scanwrite          : string;
-			port_clk0               : string;
-			port_clk1               : string;
-			port_clk2               : string;
-			port_clk3               : string;
-			port_clk4               : string;
-			port_clk5               : string;
-			port_clkena0            : string;
-			port_clkena1            : string;
-			port_clkena2            : string;
-			port_clkena3            : string;
-			port_clkena4            : string;
-			port_clkena5            : string;
-			port_extclk0            : string;
-			port_extclk1            : string;
-			port_extclk2            : string;
-			port_extclk3            : string;
-			width_clock             : natural
-		);
-		port (
-			inclk : in std_logic_vector (1 downto 0);
-			clk   : out std_logic_vector (4 downto 0)
-		);
-	end component;
+ARCHITECTURE SYN OF pll5khz IS
 
-begin
-	sub_wire4_bv(0 downto 0) <= "0";
-	sub_wire4                <= To_stdlogicvector(sub_wire4_bv);
-	sub_wire1                <= sub_wire0(0);
-	c0                       <= sub_wire1;
-	sub_wire2                <= inclk0;
-	sub_wire3                <= sub_wire4(0 downto 0) & sub_wire2;
+	SIGNAL sub_wire0	: STD_LOGIC_VECTOR (4 DOWNTO 0);
+	SIGNAL sub_wire1	: STD_LOGIC ;
+	SIGNAL sub_wire2	: STD_LOGIC ;
+	SIGNAL sub_wire3	: STD_LOGIC_VECTOR (1 DOWNTO 0);
+	SIGNAL sub_wire4_bv	: BIT_VECTOR (0 DOWNTO 0);
+	SIGNAL sub_wire4	: STD_LOGIC_VECTOR (0 DOWNTO 0);
+
+
+
+	COMPONENT altpll
+	GENERIC (
+		bandwidth_type		: STRING;
+		clk0_divide_by		: NATURAL;
+		clk0_duty_cycle		: NATURAL;
+		clk0_multiply_by		: NATURAL;
+		clk0_phase_shift		: STRING;
+		compensate_clock		: STRING;
+		inclk0_input_frequency		: NATURAL;
+		intended_device_family		: STRING;
+		lpm_hint		: STRING;
+		lpm_type		: STRING;
+		operation_mode		: STRING;
+		pll_type		: STRING;
+		port_activeclock		: STRING;
+		port_areset		: STRING;
+		port_clkbad0		: STRING;
+		port_clkbad1		: STRING;
+		port_clkloss		: STRING;
+		port_clkswitch		: STRING;
+		port_configupdate		: STRING;
+		port_fbin		: STRING;
+		port_inclk0		: STRING;
+		port_inclk1		: STRING;
+		port_locked		: STRING;
+		port_pfdena		: STRING;
+		port_phasecounterselect		: STRING;
+		port_phasedone		: STRING;
+		port_phasestep		: STRING;
+		port_phaseupdown		: STRING;
+		port_pllena		: STRING;
+		port_scanaclr		: STRING;
+		port_scanclk		: STRING;
+		port_scanclkena		: STRING;
+		port_scandata		: STRING;
+		port_scandataout		: STRING;
+		port_scandone		: STRING;
+		port_scanread		: STRING;
+		port_scanwrite		: STRING;
+		port_clk0		: STRING;
+		port_clk1		: STRING;
+		port_clk2		: STRING;
+		port_clk3		: STRING;
+		port_clk4		: STRING;
+		port_clk5		: STRING;
+		port_clkena0		: STRING;
+		port_clkena1		: STRING;
+		port_clkena2		: STRING;
+		port_clkena3		: STRING;
+		port_clkena4		: STRING;
+		port_clkena5		: STRING;
+		port_extclk0		: STRING;
+		port_extclk1		: STRING;
+		port_extclk2		: STRING;
+		port_extclk3		: STRING;
+		width_clock		: NATURAL
+	);
+	PORT (
+			inclk	: IN STD_LOGIC_VECTOR (1 DOWNTO 0);
+			clk	: OUT STD_LOGIC_VECTOR (4 DOWNTO 0)
+	);
+	END COMPONENT;
+
+BEGIN
+	sub_wire4_bv(0 DOWNTO 0) <= "0";
+	sub_wire4    <= To_stdlogicvector(sub_wire4_bv);
+	sub_wire1    <= sub_wire0(0);
+	c0    <= sub_wire1;
+	sub_wire2    <= inclk0;
+	sub_wire3    <= sub_wire4(0 DOWNTO 0) & sub_wire2;
 
 	altpll_component : altpll
-	generic map(
-		bandwidth_type          => "AUTO",
-		clk0_divide_by          => 20,
-		clk0_duty_cycle         => 50,
-		clk0_multiply_by        => 1,
-		clk0_phase_shift        => "0",
-		compensate_clock        => "CLK0",
-		inclk0_input_frequency  => 10000,
-		intended_device_family  => "Cyclone IV E",
-		lpm_hint                => "CBX_MODULE_PREFIX=pll5khz",
-		lpm_type                => "altpll",
-		operation_mode          => "NORMAL",
-		pll_type                => "AUTO",
-		port_activeclock        => "PORT_UNUSED",
-		port_areset             => "PORT_UNUSED",
-		port_clkbad0            => "PORT_UNUSED",
-		port_clkbad1            => "PORT_UNUSED",
-		port_clkloss            => "PORT_UNUSED",
-		port_clkswitch          => "PORT_UNUSED",
-		port_configupdate       => "PORT_UNUSED",
-		port_fbin               => "PORT_UNUSED",
-		port_inclk0             => "PORT_USED",
-		port_inclk1             => "PORT_UNUSED",
-		port_locked             => "PORT_UNUSED",
-		port_pfdena             => "PORT_UNUSED",
+	GENERIC MAP (
+		bandwidth_type => "AUTO",
+		clk0_divide_by => 10000,
+		clk0_duty_cycle => 50,
+		clk0_multiply_by => 1,
+		clk0_phase_shift => "0",
+		compensate_clock => "CLK0",
+		inclk0_input_frequency => 20000,
+		intended_device_family => "Cyclone IV E",
+		lpm_hint => "CBX_MODULE_PREFIX=pll5khz",
+		lpm_type => "altpll",
+		operation_mode => "NORMAL",
+		pll_type => "AUTO",
+		port_activeclock => "PORT_UNUSED",
+		port_areset => "PORT_UNUSED",
+		port_clkbad0 => "PORT_UNUSED",
+		port_clkbad1 => "PORT_UNUSED",
+		port_clkloss => "PORT_UNUSED",
+		port_clkswitch => "PORT_UNUSED",
+		port_configupdate => "PORT_UNUSED",
+		port_fbin => "PORT_UNUSED",
+		port_inclk0 => "PORT_USED",
+		port_inclk1 => "PORT_UNUSED",
+		port_locked => "PORT_UNUSED",
+		port_pfdena => "PORT_UNUSED",
 		port_phasecounterselect => "PORT_UNUSED",
-		port_phasedone          => "PORT_UNUSED",
-		port_phasestep          => "PORT_UNUSED",
-		port_phaseupdown        => "PORT_UNUSED",
-		port_pllena             => "PORT_UNUSED",
-		port_scanaclr           => "PORT_UNUSED",
-		port_scanclk            => "PORT_UNUSED",
-		port_scanclkena         => "PORT_UNUSED",
-		port_scandata           => "PORT_UNUSED",
-		port_scandataout        => "PORT_UNUSED",
-		port_scandone           => "PORT_UNUSED",
-		port_scanread           => "PORT_UNUSED",
-		port_scanwrite          => "PORT_UNUSED",
-		port_clk0               => "PORT_USED",
-		port_clk1               => "PORT_UNUSED",
-		port_clk2               => "PORT_UNUSED",
-		port_clk3               => "PORT_UNUSED",
-		port_clk4               => "PORT_UNUSED",
-		port_clk5               => "PORT_UNUSED",
-		port_clkena0            => "PORT_UNUSED",
-		port_clkena1            => "PORT_UNUSED",
-		port_clkena2            => "PORT_UNUSED",
-		port_clkena3            => "PORT_UNUSED",
-		port_clkena4            => "PORT_UNUSED",
-		port_clkena5            => "PORT_UNUSED",
-		port_extclk0            => "PORT_UNUSED",
-		port_extclk1            => "PORT_UNUSED",
-		port_extclk2            => "PORT_UNUSED",
-		port_extclk3            => "PORT_UNUSED",
-		width_clock             => 5
+		port_phasedone => "PORT_UNUSED",
+		port_phasestep => "PORT_UNUSED",
+		port_phaseupdown => "PORT_UNUSED",
+		port_pllena => "PORT_UNUSED",
+		port_scanaclr => "PORT_UNUSED",
+		port_scanclk => "PORT_UNUSED",
+		port_scanclkena => "PORT_UNUSED",
+		port_scandata => "PORT_UNUSED",
+		port_scandataout => "PORT_UNUSED",
+		port_scandone => "PORT_UNUSED",
+		port_scanread => "PORT_UNUSED",
+		port_scanwrite => "PORT_UNUSED",
+		port_clk0 => "PORT_USED",
+		port_clk1 => "PORT_UNUSED",
+		port_clk2 => "PORT_UNUSED",
+		port_clk3 => "PORT_UNUSED",
+		port_clk4 => "PORT_UNUSED",
+		port_clk5 => "PORT_UNUSED",
+		port_clkena0 => "PORT_UNUSED",
+		port_clkena1 => "PORT_UNUSED",
+		port_clkena2 => "PORT_UNUSED",
+		port_clkena3 => "PORT_UNUSED",
+		port_clkena4 => "PORT_UNUSED",
+		port_clkena5 => "PORT_UNUSED",
+		port_extclk0 => "PORT_UNUSED",
+		port_extclk1 => "PORT_UNUSED",
+		port_extclk2 => "PORT_UNUSED",
+		port_extclk3 => "PORT_UNUSED",
+		width_clock => 5
 	)
-	port map(
+	PORT MAP (
 		inclk => sub_wire3,
-		clk   => sub_wire0
+		clk => sub_wire0
 	);
 
-end SYN;
+
+
+END SYN;
 
 -- ============================================================
 -- CNX file retrieval info
@@ -207,7 +218,7 @@ end SYN;
 -- Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "Any"
 -- Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "1"
 -- Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
--- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "5.000000"
+-- Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "0.005000"
 -- Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 -- Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 -- Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -215,7 +226,7 @@ end SYN;
 -- Retrieval info: PRIVATE: GLOCKED_MODE_CHECK STRING "0"
 -- Retrieval info: PRIVATE: GLOCK_COUNTER_EDIT NUMERIC "1048575"
 -- Retrieval info: PRIVATE: HAS_MANUAL_SWITCHOVER STRING "1"
--- Retrieval info: PRIVATE: INCLK0_FREQ_EDIT STRING "100.000"
+-- Retrieval info: PRIVATE: INCLK0_FREQ_EDIT STRING "50.000"
 -- Retrieval info: PRIVATE: INCLK0_FREQ_UNIT_COMBO STRING "MHz"
 -- Retrieval info: PRIVATE: INCLK1_FREQ_EDIT STRING "100.000"
 -- Retrieval info: PRIVATE: INCLK1_FREQ_EDIT_CHANGED STRING "1"
@@ -232,7 +243,7 @@ end SYN;
 -- Retrieval info: PRIVATE: MIRROR_CLK0 STRING "0"
 -- Retrieval info: PRIVATE: MULT_FACTOR0 NUMERIC "1"
 -- Retrieval info: PRIVATE: NORMAL_MODE_RADIO STRING "1"
--- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "5.00000000"
+-- Retrieval info: PRIVATE: OUTPUT_FREQ0 STRING "0.00500000"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_MODE0 STRING "1"
 -- Retrieval info: PRIVATE: OUTPUT_FREQ_UNIT0 STRING "MHz"
 -- Retrieval info: PRIVATE: PHASE_RECONFIG_FEATURE_ENABLED STRING "1"
@@ -271,12 +282,12 @@ end SYN;
 -- Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 -- Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 -- Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
--- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "20"
+-- Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "10000"
 -- Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
 -- Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "1"
 -- Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
 -- Retrieval info: CONSTANT: COMPENSATE_CLOCK STRING "CLK0"
--- Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "10000"
+-- Retrieval info: CONSTANT: INCLK0_INPUT_FREQUENCY NUMERIC "20000"
 -- Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 -- Retrieval info: CONSTANT: LPM_TYPE STRING "altpll"
 -- Retrieval info: CONSTANT: OPERATION_MODE STRING "NORMAL"

@@ -64,7 +64,7 @@ begin
 
   t0 : timer
   port map(
-    clk   => CLOCK_50,
+    clk   => c0,
     reset => reset,
     cen   => cent,
     sec   => sec,

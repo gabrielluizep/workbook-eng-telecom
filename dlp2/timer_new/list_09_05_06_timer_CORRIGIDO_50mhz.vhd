@@ -96,12 +96,12 @@ begin
       end if;
    end process;
    -- next-state logic/output logic for mod-50000000 counter
-   r_next <= (others => '0') when r_reg = 999999 else
+   r_next <= (others => '0') when r_reg = 49 else
       r_reg + 1;
 
    ----------------------------------------------------------------------------
 
-   c_en <= '1' when r_reg = 999999 else
+   c_en <= '1' when r_reg = 49 else
       '0';
 
    c_next <= (others => '0') when (c_reg = 99 and c_en = '1') else
@@ -130,6 +130,5 @@ begin
    -- output logic
    sec <= std_logic_vector(s_reg);
    min <= std_logic_vector(m_reg);
-
    cen <= std_logic_vector(c_reg);
 end single_clock_arch;
