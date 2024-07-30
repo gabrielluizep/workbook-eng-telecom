@@ -1,38 +1,38 @@
-library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-entity bcd2ssd is
-    port (
-        bcd     : in std_logic_vector(3 downto 0);
-        ssd_out : out std_logic_vector(6 downto 0);
-        ac_ccn  : in std_logic
+ENTITY bcd2ssd IS
+    PORT (
+        bcd : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+        ssd_out : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+        ac_ccn : IN STD_LOGIC
     );
-end entity bcd2ssd;
+END ENTITY bcd2ssd;
 
-architecture bcd2ssd_v1 of bcd2ssd is
+ARCHITECTURE bcd2ssd_v1 OF bcd2ssd IS
 
-    signal ssd : std_logic_vector(6 downto 0);
-    signal bcd_int : integer range 0 to 9;
+    SIGNAL ssd : STD_LOGIC_VECTOR(6 DOWNTO 0);
+    SIGNAL bcd_int : INTEGER RANGE 0 TO 9;
 
-begin
+BEGIN
 
-    ssd_out <= ssd when ac_ccn = '1' else
-        not ssd;
+    ssd_out <= ssd WHEN ac_ccn = '1' ELSE
+        NOT ssd;
     bcd_int <= to_integer(unsigned(bcd));
 
-    with bcd_int select ssd <=
-        "0111111" when 0,
-        "0000110" when 1,
-        "1011011" when 2,
-        "1001111" when 3,
-        "1100110" when 4,
-        "1101101" when 5,
-        "1111101" when 6,
-        "0000111" when 7,
-        "1111111" when 8,
-        "1101111" when 9,
+    WITH bcd_int SELECT ssd <=
+        "0111111" WHEN 0,
+        "0000110" WHEN 1,
+        "1011011" WHEN 2,
+        "1001111" WHEN 3,
+        "1100110" WHEN 4,
+        "1101101" WHEN 5,
+        "1111101" WHEN 6,
+        "0000111" WHEN 7,
+        "1111111" WHEN 8,
+        "1101111" WHEN 9,
         -- Character "E" when others: 
-        "1111001" when others;
+        "1111001" WHEN OTHERS;
 
-end architecture bcd2ssd_v1;	
+END ARCHITECTURE bcd2ssd_v1;
