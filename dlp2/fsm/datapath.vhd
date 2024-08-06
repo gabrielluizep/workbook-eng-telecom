@@ -18,6 +18,7 @@ ENTITY datapath IS
         bin : OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
     );
 END ENTITY;
+
 ARCHITECTURE datapath_arch OF datapath IS
     COMPONENT registrador IS
         GENERIC (
@@ -25,6 +26,7 @@ ARCHITECTURE datapath_arch OF datapath IS
         );
         PORT (
             d : IN STD_LOGIC_VECTOR(N DOWNTO 0);
+            rst : IN STD_LOGIC;
             clk : IN STD_LOGIC;
             en : IN STD_LOGIC;
             q : OUT STD_LOGIC_VECTOR(N DOWNTO 0)
@@ -50,19 +52,20 @@ ARCHITECTURE datapath_arch OF datapath IS
 
     SIGNAL a, b : STD_LOGIC_VECTOR (7 DOWNTO 0);
     SIGNAL res : STD_LOGIC_VECTOR(7 DOWNTO 0);
-    SIGNAL res_bcd : STD_LOGIC_VECTOR(12 DOWNTO 0);
+    SIGNAL res_bcd : STD_LOGIC_VECTOR(11 DOWNTO 0);
 
-    SIGNAL q_ssd_0 : STD_LOGIC_VECTOR(7 DOWNTO 0);
-    SIGNAL q_ssd_1 : STD_LOGIC_VECTOR(7 DOWNTO 0);
-    SIGNAL q_ssd_2 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL d_ssd_0, q_ssd_0 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL d_ssd_1, q_ssd_1 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    SIGNAL d_ssd_2, q_ssd_2 : STD_LOGIC_VECTOR(7 DOWNTO 0);
 BEGIN
 
-    registrador_operandos : registrador
+    reg_operandos : registrador
     GENERIC MAP(
         N => 7
     )
     PORT MAP(
         d => operandos,
+        rst => reset,
         clk => clk,
         en => enable_1,
         q => a
@@ -76,12 +79,13 @@ BEGIN
         STD_LOGIC_VECTOR(UNSIGNED(a) + 1) WHEN "10",
         STD_LOGIC_VECTOR(UNSIGNED(a) - 1) WHEN OTHERS;
 
-    r_res_inst : registrador
+    reg_res_inst : registrador
     GENERIC MAP(
         N => 7
     )
     PORT MAP(
         d => res,
+        rst => reset,
         clk => clk,
         en => enable_2,
         q => bin
@@ -104,12 +108,14 @@ BEGIN
 
     -- Display unidade
 
-    r_ssd0_inst : registrador
+    d_ssd_0 <= "0000" & res_bcd(3 DOWNTO 0);
+    reg_ssd0_inst : registrador
     GENERIC MAP(
         N => 7
     )
     PORT MAP(
-        d => "0000" & res_bcd(3 DOWNTO 0),
+        d => d_ssd_0,
+        rst => reset,
         clk => clk,
         en => enable_2,
         q => q_ssd_0
@@ -124,12 +130,14 @@ BEGIN
 
     -- Display dezena
 
-    r_ssd1_inst : registrador
+    d_ssd_1 <= "0000" & res_bcd(7 DOWNTO 4);
+    reg_ssd1_inst : registrador
     GENERIC MAP(
         N => 7
     )
     PORT MAP(
-        d => "0000" & res_bcd(7 DOWNTO 4),
+        d => d_ssd_1,
+        rst => reset,
         clk => clk,
         en => enable_2,
         q => q_ssd_1
@@ -144,12 +152,14 @@ BEGIN
 
     -- Display centena
 
-    r_ssd2_inst : registrador
+    d_ssd_2 <= "0000" & res_bcd(11 DOWNTO 8);
+    reg_ssd2_inst : registrador
     GENERIC MAP(
         N => 7
     )
     PORT MAP(
-        d => "0000" & res_bcd(11 DOWNTO 8),
+        d => d_ssd_2,
+        rst => reset,
         clk => clk,
         en => enable_2,
         q => q_ssd_2
@@ -162,4 +172,4 @@ BEGIN
         ac_ccn => '0'
     );
 
-END ARCHITECTURE;
+END datapath_arch;

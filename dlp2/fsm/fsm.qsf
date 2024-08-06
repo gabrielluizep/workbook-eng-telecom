@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY topo
+set_global_assignment -name TOP_LEVEL_ENTITY datapath
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:04:36  JULY 23, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Standard Edition"
@@ -96,11 +96,8 @@ set_location_assignment PIN_Y19 -to HEX3[6]
 
 set_location_assignment PIN_M23 -to KEY[0]
 set_location_assignment PIN_M21 -to KEY[1]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[0]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[1]
 
 set_location_assignment PIN_Y2 -to CLOCK_50
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
 
 set_location_assignment PIN_G19 -to LEDR[0]
 set_location_assignment PIN_E19 -to LEDR[2]
@@ -110,13 +107,6 @@ set_location_assignment PIN_F18 -to LEDR[4]
 set_location_assignment PIN_E18 -to LEDR[5]
 set_location_assignment PIN_J19 -to LEDR[6]
 set_location_assignment PIN_H19 -to LEDR[7]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[0]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[1]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[3]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[4]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[5]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[6]
-set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[7]
 
 
 set_location_assignment PIN_AB28 -to SW[0]
@@ -137,6 +127,18 @@ set_location_assignment PIN_AA23 -to SW[14]
 set_location_assignment PIN_AA22 -to SW[15]
 set_location_assignment PIN_Y24 -to SW[16]
 set_location_assignment PIN_Y23 -to SW[17]
+
+
+set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to KEY[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to CLOCK_50
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[4]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to LEDR[7]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[0]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[1]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[2]
@@ -155,8 +157,6 @@ set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[14]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[15]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[16]
 set_instance_assignment -name IO_STANDARD "2.5 V" -to SW[17]
-
-
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top

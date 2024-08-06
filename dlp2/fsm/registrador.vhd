@@ -9,6 +9,7 @@ ENTITY registrador IS
     );
     PORT (
         d : IN STD_LOGIC_VECTOR(N DOWNTO 0);
+        rst: IN STD_LOGIC;
         clk : IN STD_LOGIC;
         en : IN STD_LOGIC;
         q : OUT STD_LOGIC_VECTOR(N DOWNTO 0)
@@ -23,6 +24,10 @@ BEGIN
             IF en = '1' THEN
                 q <= d;
             END IF;
+        END IF;
+
+        IF rst = '1' THEN
+            q <= (OTHERS => '0');
         END IF;
     END PROCESS;
 END ARCHITECTURE;

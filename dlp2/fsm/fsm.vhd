@@ -81,4 +81,4 @@ BEGIN
 
     selecao <= operacao;
 
-END ARCHITECTURE;
+END fsm_arch;

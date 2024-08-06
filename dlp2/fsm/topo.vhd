@@ -91,4 +91,4 @@ BEGIN
         selecao => selecao,
         enable_2 => enable_2
     );
-END ARCHITECTURE;
+END topo_arch;
