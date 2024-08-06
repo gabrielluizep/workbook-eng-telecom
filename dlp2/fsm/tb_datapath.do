@@ -30,16 +30,8 @@ add wave -noupdate /datapath/selecao
 add wave -noupdate /datapath/operandos
 add wave -noupdate -divider Out
 add wave -noupdate /datapath/bin
+add wave -noupdate /datapath/res
 add wave -noupdate /datapath/res_bcd
-add wave -noupdate /datapath/d_ssd_0
-add wave -noupdate /datapath/d_ssd_1
-add wave -noupdate /datapath/d_ssd_2
-add wave -noupdate /datapath/q_ssd_0
-add wave -noupdate /datapath/q_ssd_1
-add wave -noupdate /datapath/q_ssd_2
-add wave -noupdate /datapath/disp0
-add wave -noupdate /datapath/disp1
-add wave -noupdate /datapath/disp2
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {23 ps} 0}
 quietly wave cursor active 1
@@ -81,7 +73,7 @@ force -freeze sim:/datapath/enable_2         1 200
 
 force -freeze sim:/datapath/enable_2         0 400
 
-run 1000
+run 10000
 
 # Testando a - 1
 force -freeze sim:/datapath/selecao         11   0
@@ -95,7 +87,7 @@ force -freeze sim:/datapath/enable_2         1 200
 
 force -freeze sim:/datapath/enable_2         0 400 
 
-run 1000
+run 10000
 
 # Testando a + b
 force -freeze sim:/datapath/selecao         00   0
@@ -113,7 +105,7 @@ force -freeze sim:/datapath/enable_2         1 400
 force -freeze sim:/datapath/enter            0 600 
 force -freeze sim:/datapath/enable_2         0 600
 
-run 1000
+run 10000
 
 # Testando a - b
 force -freeze sim:/datapath/selecao         01   0
@@ -131,4 +123,4 @@ force -freeze sim:/datapath/enable_2         1 400
 force -freeze sim:/datapath/enter            0 600 
 force -freeze sim:/datapath/enable_2         0 600
 
-run 1000
+run 10000

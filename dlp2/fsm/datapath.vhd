@@ -34,11 +34,11 @@ ARCHITECTURE datapath_arch OF datapath IS
     END COMPONENT;
 
     COMPONENT bin2bcd IS
-        GENERIC (N : POSITIVE := 16);
+        GENERIC (N : POSITIVE := 8);
         PORT (
             clk, reset : IN STD_LOGIC;
             binary_in : IN STD_LOGIC_VECTOR(N - 1 DOWNTO 0);
-            bcd0, bcd1, bcd2, bcd3, bcd4 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
+            bcd0, bcd1, bcd2 : OUT STD_LOGIC_VECTOR(3 DOWNTO 0)
         );
     END COMPONENT;
 
@@ -101,9 +101,7 @@ BEGIN
         binary_in => res,
         bcd0 => res_bcd(3 DOWNTO 0),
         bcd1 => res_bcd(7 DOWNTO 4),
-        bcd2 => res_bcd(11 DOWNTO 8),
-        bcd3 => OPEN,
-        bcd4 => OPEN
+        bcd2 => res_bcd(11 DOWNTO 8)
     );
 
     -- Display unidade

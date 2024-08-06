@@ -61,7 +61,7 @@ BEGIN
     operandos(1) <= SW(1);
     operandos(0) <= SW(0);
 
-    reset <= KEY(0);
+    reset <= NOT KEY(0);
     enter <= KEY(1);
 
     operacao(1) <= SW(17);
