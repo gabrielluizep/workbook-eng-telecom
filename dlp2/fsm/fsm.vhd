@@ -53,7 +53,7 @@ BEGIN
                 IF enter = '1' THEN
                     next_state <= operando_1;
                 ELSE
-                    IF operacao(0) = '0' THEN
+                    IF operacao(1) = '0' THEN
                         next_state <= operando_2;
                     ELSE
                         next_state <= resultado;

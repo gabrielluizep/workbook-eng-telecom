@@ -8,6 +8,7 @@ ENTITY topo IS
         KEY : IN STD_LOGIC_VECTOR (1 DOWNTO 0);
         HEX0 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
         HEX1 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
+        HEX2 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
         LEDR : OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
     );
 
@@ -24,6 +25,7 @@ ARCHITECTURE topo_arch OF topo IS
             selecao : IN STD_LOGIC_VECTOR (1 DOWNTO 0);
             enable_2 : IN STD_LOGIC;
 
+            disp0 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
             disp1 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
             disp2 : OUT STD_LOGIC_VECTOR (6 DOWNTO 0);
             bin : OUT STD_LOGIC_VECTOR (7 DOWNTO 0)
@@ -62,7 +64,7 @@ BEGIN
     operandos(0) <= SW(0);
 
     reset <= NOT KEY(0);
-    enter <= KEY(1);
+    enter <= NOT KEY(1);
 
     operacao(1) <= SW(17);
     operacao(0) <= SW(16);
@@ -76,8 +78,9 @@ BEGIN
         selecao => selecao,
         enable_2 => enable_2,
 
-        disp1 => HEX0,
-        disp2 => HEX1,
+        disp0 => HEX0,
+        disp1 => HEX1,
+        disp2 => HEX2,
         bin => LEDR
     );
 
