@@ -32,9 +32,7 @@
 
 == Resolução
 
-Inicialmente, a partir das definições das especificações do filtro foi feito o processo de pré-distorção do sinal, como visto na @bilinear.
-
-Portanto a transformação bilinear mapeia frequências analógicas em digitais como abaixo:
+Para iniciarmos a resolução da questão utilizando as especificações do filtro, foi realizado o mapeamento por meio da transformação bilinear, onde: foi definido o valor de $T_s = 2$, e calculamos as frequências analógicas $Omega_p$ e $Omega_r$.
 
 $
 Omega -> 2/T_s  tan(omega/2)
@@ -43,13 +41,12 @@ $<bilinear>
 #sourcecode()[```matlab
 wp = 0.2*pi;
 wr = 0.3*pi;
-ts = 2;
 
-omega_ap = (2/ts)*tan(wp/2)
-omega_ar = (2/ts)*tan(wr/2)
+Omega_p = tan(wp/2)
+Omega_r = tan(wr/2)
 ```]
 
-Em seguida, foi feito a normalização como visto na @tabela-transformacoes, das frequências pré-distorcida, onde: $a$ igual à 1, e calculamos as frequências normalizadas $omega'_p$ e $omega'_r$.
+A partir dos valores de $Omega_p$ e $Omega_r$ e sabendo que $a=1$ devido a escolha do filtro Butterworth, foi feito a normalização como visto na @tabela-transformacoes
 
 #figure(
   caption: [Transformações na frequência analógica],
@@ -63,7 +60,7 @@ Em seguida, foi feito a normalização como visto na @tabela-transformacoes, das
   )
 )<tabela-transformacoes>
 
-Após a normalização das frequências, foi implementado o cálculo das atenuações, como visto na @tabela-atenuacoes, onde: definimos os valores de atenuação desejados $sigma_p$ e $sigma_r$, e calculamos as atenuações em decibéis $A_p$ e $A_r$.
+Com a normalização das frequências, podemos então calcular as atenuações a partir da @tabela-atenuacoes. Definindo os valores de atenuação desejados $sigma_p$ e $sigma_r$, e calculando as atenuações em decibéis $A_p$ e $A_r$.
 
 #figure(
   caption: [Atenuações],
@@ -78,7 +75,7 @@ Após a normalização das frequências, foi implementado o cálculo das atenua�
   )
 )<tabela-atenuacoes>
 
-Depois foi calculado os parâmetros do filtro, em que: calculamos o valor de $epsilon$, como visto no @calculo-epsilon, usando as atenuações desejadas, calculamos o numerador, como visto na @calculo-n, e o denominador necessários para determinar a ordem do filtro $n$, e arredondamos $n$ para o próximo número inteiro.
+Com os valores de atenuação em mãos podemos então calcular $epsilon$ e a ordemo do filtro $n$.
 
 
 $
@@ -98,19 +95,19 @@ den = 2*log10(omega_r_linha);
 n = ceil(num/den)
 ```]
 
-Seguidamente foi cálculado as raízes de $s'$, onde: Utilizamos a função `roots()` para encontrar as raízes da equação $1+epsilon^2(-s'^2)^n =0$. Estas raízes são armazenadas em uma matriz.
+E então podemos obter as raízed de $s'$ utilizando a função `roots()` para encontrar as raízes da equação $1+epsilon^2(-s'^2)^n =0$. 
 
 #sourcecode()[```matlab
   roots([eps^2 0 0 0 0 0 0 0 0 0 0 0 1])
 ```]
 
-Para obtermos os coeficientes do filtro $s'$ utilizamos a função `poly()` para obter os coeficientes do filtro a partir das raízes encontradas.
+Os coeficientes do filtro por sua vez são obtidos utilizando a função `poly()`.
 
 #sourcecode()[```matlab
   poly(roots([eps^2 0 0 0 0 0 0 0 0 0 0 0 1]))
 ```]
 
-Após a obtenção dos coeficientes do filtro, obtivemos a seguinte expressão:
+Com os coeficientes podemos obter a função de transferência do filtro, que é dada por:
 
 $
 h'(s')&=\ &2.0648 / (1s'^6 + 4.3600s'^5 + 9.5048s'^4 + 13.1362s'^3 + 12.1033s'^2 + 7.0697s +2.0648)
