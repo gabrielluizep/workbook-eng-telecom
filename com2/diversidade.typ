@@ -1,7 +1,7 @@
 #import "@preview/klaro-ifsc-sj:0.1.0": report
 
 #set text(size: 12pt, font: "FreeSans", lang: "pt")
-#show par: set block(below: 1.5em)
+#show par:  block(below: 1.5em)
 #show heading: set block(below: 1.5em)
 
 #show: doc => report(
