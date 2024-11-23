@@ -323,4 +323,4 @@ Utilizando a linguagem de programação Python e a biblioteca `komm` podemos sim
   caption: "Desempenho BER do código de Hamming (8,4) com codificação via síndrome e modulação QPSK vs não codificado",
 );
 
-É possível verificar que o desempenho BER do código de Hamming $(8,4)$ é superior ao não codificado para valores de $E_b"/"N_0$ maiores que $4 "dB"$.
+É possível verificar que o desempenho BER do código de Hamming $(8,4)$ é superior ao não codificado para valores de $E_b"/"N_0$ maiores que $1 "dB"$.
