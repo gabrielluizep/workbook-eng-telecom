@@ -211,3 +211,51 @@ cal(X) &= {suit.spade, suit.heart, suit.diamond, suit.club} quad p_x = [underbra
 therefore H(x) &= 1/4 log_2 (4) + 1/4 log_2 (4) + 1/4 log_2 (4) + 1/4 log_2 (4) \
                &= 2 bits
 $
+
+#pagebreak()
+
+Aula passada:
+
+
+$
+  H(x) = sum_(x in cal(X)) p_x (x) log(1/(p_x (x)))  
+$
+
+"Entropia de uma DMS"
+
+Entropiade uma DMS binária:
+
+$
+  cal(X) &= {0,1} quad p_x = [1-p, p]\
+
+  H(x) &= p log(1/p) + (1-p) log(1/(1-p))\
+       &= p log(p) + (1-p) log(1-p) = H_b (p)
+$
+
+// plot H_b(p)
+
+$
+  H_b (0) = underbrace(0log(1/0), 0 dot oo -> 0) + 1 log(1/1)\
+$
+
+= Propriedades da entropia
+
++ $H(x)$ é uma função concava de $p_x$.
++ $0underbrace(<=, "Se e somente se" \ X" é determinística")H_(x)underbrace(<=, "se e somente se"\ X" é uniforme sobre " cal(X))log|cal(X)|$
+
+$
+  |cal(X)| = hash cal(X)\
+$
+
+= Problema das 12 moedas
+
+- 12 moedas
+- 1 falsa (ou mais leve ou mais)
+- 1 balança de 2 braços #emoji.scales
+- Variavel aleatória $Y in cal(Y) = {1^+, 2^+, dots, 12^+, 1^-, 1^+, dots,12^-1}$. $Y tilde H(Y)$
+- Incerteza sobre $Y$: $H(Y) = log(|cal(Y)|) = log(24) = 4.585 "bits" = 2,893 "trits"$
+- Saída da balança: $X_i in cal(X) = {l,b,r}$
+- A cada pesagem: ganhamos $H(X_i)$ de informação
+
+
+
