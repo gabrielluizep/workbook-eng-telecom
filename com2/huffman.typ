@@ -8,7 +8,7 @@
 #show heading: set block(below: 1.5em)
 
 #show: doc => report(
-  title: "Avaliação Canais Binários Assimétricos",
+  title: "Códigos de Huffman",
   subtitle: "Sistemas de Comunicação II",
   authors: ("Gabriel Luiz Espindola Pedro",),
   date: "17 de Fevereiro de 2025",
